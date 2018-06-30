@@ -14,6 +14,7 @@
 
 int		key_hit(int key, t_win *win)
 {
+	//printf("%d\n",key);
 	if (key == W)
 		win->keys = 1.0;
 	if (key == S)
@@ -31,31 +32,59 @@ int		key_release(int key, t_win *win)
 	return 1;
 }
 
-void	ft_move(t_win *win)
+void	action_move(t_win *win)
 {
-	int is_floor;
-	int x;
-	int y;
+	int		is_floor;
+	char	map_type;
+	int		x;
+	int		y;
 
-	x = (int)(win->pos.x + win->dir.dx * MOVE_SPEED);
-	y = (int)(win->pos.y);
-	is_floor = map_get_type(win->map, x, y) == '0';
-		if (is_floor)
-			win->pos.x += win->keys * win->pos.dx * MOVE_SPEED;
-	x = (int)(win->pos.x);
-	y = (int)(win->pos.y + win->dir.dy * MOVE_SPEED);
-	is_floor = map_get_type(win->map, x, y) == '0';
-		if (is_floor)
-			win->pos.y += win->keys * win->pos.dy * MOVE_SPEED;
+	if (win->keys != 1.0 && win->keys != -1.0 )
+		return ;
+	x = (int)(win->pos.dx + win->dir.dx * MOVE_SPEED);
+	y = (int)(win->pos.dy);
+	map_type = map_get_type(win->map, x, y);
+	is_floor = (map_type == '0' || map_type == 'x');
+	if (is_floor)
+		win->pos.dx += win->keys * win->dir.dx * MOVE_SPEED;
+	x = (int)(win->pos.dx);
+	y = (int)(win->pos.dy + win->dir.dy * MOVE_SPEED);
+	map_type = map_get_type(win->map, x, y);
+	is_floor = (map_type == '0' || map_type == 'x');
+	if (is_floor)
+		win->pos.dy += win->keys * win->dir.dy * MOVE_SPEED;
+}
+
+void	action_step(t_win *win)
+{
+	int		is_floor;
+	char	map_type;
+	int		x;
+	int		y;
+
+	if (win->keys != 2.0 && win->keys != -2.0 )
+		return ;
+	x = (int)(win->pos.dx + win->dir.dx * MOVE_SPEED);
+	y = (int)(win->pos.dy);
+	map_type = map_get_type(win->map, x, y);
+	is_floor = (map_type == '0' || map_type == 'x');
+	if (is_floor)
+		win->pos.dy += (win->keys / 2.0) * win->dir.dx * MOVE_SPEED;
+	x = (int)(win->pos.dx);
+	y = (int)(win->pos.dy + win->dir.dy * MOVE_SPEED);
+	map_type = map_get_type(win->map, x, y);
+	is_floor = (map_type == '0' || map_type == 'x');
+	if (is_floor)
+		win->pos.dx += (win->keys / 2.0) * win->dir.dy * MOVE_SPEED;
 }
 
 int			mouse_hook(int x, int y, t_win *win)
 {
 	(void)y;	
 	if ((WIDTH / 2 - x) > WIDTH / 4)
-		win->mouse = 0.5;
+		win->mouse = 0.2;
 	else if ((WIDTH / 2 - x) < - WIDTH / 4)
-		win->mouse = -0.5;
+		win->mouse = -0.2;
 	else
 		win->mouse = 0;
 	return 1;
@@ -106,12 +135,13 @@ int		core(t_win *win)
 			display(win);
 			move = 0;
 	}
-	if (win->mouse != 0)
+	if (win->mouse != 0 || win->keys != 0.0)
 	{
 		mlx_destroy_image(win->mlx, win->env->newi);
 		win->env->newi = mlx_new_image(win->mlx, WIDTH, HEIGHT);
 		ft_rotate(win);
-		ft_move(win);
+		action_move(win);
+		action_step(win);
 		display(win);
 		move = 1;
 	}

@@ -14,9 +14,8 @@
 
 static void		ray_init(t_win *win, int x)
 {
-	// if (win->mouse != 0)
-	// 	ft_rotate(win);
 	win->ray->pos = set_xy(win->pos.dx, win->pos.dy);
+	//printf("=====%f  %f\n", win->ray->pos.dx,win->ray->pos.dy);
 	win->ray->camera = 2 * x / (double)(WIDTH) - 1;
 	win->ray->dir = set_xy(win->dir.dx + win->ray->plane.dx * win->ray->camera, 
 						win->dir.dy + win->ray->plane.dy * win->ray->camera);

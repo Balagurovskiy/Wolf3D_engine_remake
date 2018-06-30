@@ -25,6 +25,8 @@ t_win		*window_new(int w, int h, char *name)
 	win->sky = NULL;
 	win->env = NULL;
 	win->map = NULL;
+	win->keys = 0.0;
+	win->mouse = 0.0;
 	return (win);
 }
 
