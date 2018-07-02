@@ -64,18 +64,31 @@ void	action_step(t_win *win)
 
 	if (win->keys != 2.0 && win->keys != -2.0 )
 		return ;
+
+	double	dirx;
+
+t_xy dir_save; dir_save.dx= win->dir.dx;dir_save.dy= win->dir.dy;
+
+	dirx = win->dir.dx; 
+	win->dir.dx = win->dir.dx * cos(-(win->keys / 2.0) * 16 * 0.1)
+		- win->dir.dy * sin(-(win->keys / 2.0) * 16 * 0.1);
+	win->dir.dy = dirx * sin(-(win->keys / 2.0) * 16 * 0.1)
+		+ win->dir.dy * cos(-(win->keys / 2.0) * 16 * 0.1);
+
 	x = (int)(win->pos.dx + win->dir.dx * MOVE_SPEED);
 	y = (int)(win->pos.dy);
 	map_type = map_get_type(win->map, x, y);
 	is_floor = (map_type == '0' || map_type == 'x');
 	if (is_floor)
-		win->pos.dy += (win->keys / 2.0) * win->dir.dx * MOVE_SPEED;
+		win->pos.dx += /*(win->keys / 2.0) **/ win->dir.dx * MOVE_SPEED;
 	x = (int)(win->pos.dx);
 	y = (int)(win->pos.dy + win->dir.dy * MOVE_SPEED);
 	map_type = map_get_type(win->map, x, y);
 	is_floor = (map_type == '0' || map_type == 'x');
 	if (is_floor)
-		win->pos.dx += (win->keys / 2.0) * win->dir.dy * MOVE_SPEED;
+		win->pos.dy += /*(win->keys / 2.0) **/ win->dir.dy * MOVE_SPEED;
+
+	win->dir.dx = dir_save.dx;win->dir.dy = dir_save.dy;
 }
 
 int			mouse_hook(int x, int y, t_win *win)
