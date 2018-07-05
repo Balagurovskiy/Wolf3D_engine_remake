@@ -118,6 +118,14 @@ void		draw(t_win *win, int x);
 void		display(t_win *win);
 			/* raycaster/raycast */
 void		raycast(t_win *win, int x);
+			/* raycaster/direction */
+void		direction_win(t_win *win);
+t_xy		dir_plane(t_xy plane, double vec);
+t_xy		dir_rotate(t_xy dir, double vec);
+			/* raycaster/position */
+int			pos_is_it_floor(t_xy pos, t_xy dir, t_map *map, double keys);
+t_xy		pos_move(t_xy pos0, t_xy dir, double keys);
+void		position_win(t_win *win);
 
 # define COLOR_SKY 0xA9EAFF
 # define COLOR_FLOOR 0x3A9D23

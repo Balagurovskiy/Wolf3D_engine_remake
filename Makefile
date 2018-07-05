@@ -6,6 +6,8 @@ FILES =	main \
 		map/map_validation \
 		raycaster/display \
 		raycaster/raycast \
+		raycaster/direction \
+		raycaster/position \
 		utils/xy \
 		utils/window \
 		utils/image
