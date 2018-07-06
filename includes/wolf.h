@@ -115,7 +115,7 @@ t_img		*image_new(void *mlx, int w, int h, char *img_file);
 void		image_destroy(void *mlx, t_img *img);
 			/* raycaster/display */
 void		draw(t_win *win, int x);
-void		display(t_win *win);
+void		display(t_win *win, int x0, int xn);
 			/* raycaster/raycast */
 void		raycast(t_win *win, int x);
 			/* raycaster/direction */
@@ -126,6 +126,8 @@ t_xy		dir_rotate(t_xy dir, double vec);
 int			pos_is_it_floor(t_xy pos, t_xy dir, t_map *map, double keys);
 t_xy		pos_move(t_xy pos0, t_xy dir, double keys);
 void		position_win(t_win *win);
+
+void	thread_make(t_win *win);
 
 # define COLOR_SKY 0xA9EAFF
 # define COLOR_FLOOR 0x3A9D23

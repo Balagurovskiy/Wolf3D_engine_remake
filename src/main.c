@@ -44,35 +44,23 @@ int			mouse_hook(int x, int y, t_win *win)
 	return 1;
 }
 
-void 	thr(t_win *win)
-{
-	pthread_t		threads[4];
-	int				idx;
-
-	idx = 0;
-	while (idx < 4)
-	{
-		pthread_create(&threads[idx], NULL,
-			(void *(*)(void *))display,	(void *)win);
-		idx++;
-	}
-	idx = 0;
-	while (idx < 4)
-		pthread_join(threads[idx++], NULL);
-}
-//////////////////CHECK BORDER ON 0 IF(TRUE) REPLACE ON 1
-//////////////////THREADS  /// IN EACH NEW THREAD STATIC INT WILL BE 0
+//////////////////CHECK BORDER ON 0 IF(TRUE) REPLACE ON 1 OR WALL WITH INVIS
+//////////////////THREADS  
+///						1 thread - normal; >1 - destroy
 //////////////////IF PRESSED TWO BUTTS kyes WILL BE 0 AFTER RLEASE ONLY ONE OF THEM
 int		core(t_win *win)
 {
-	
-	// thr(win);
-
 	static int move = 1;
 	if (move)
 	{
-			display(win);
-			move = 0;
+		//display(win, 0, WIDTH);
+
+		// display(win, 0, WIDTH_1_4);
+		// display(win, WIDTH_1_4 * 2, WIDTH_1_4 * 3);
+
+		thread_make(win);
+		
+		move = 0;
 	}
 	if (win->mouse != 0 || win->keys != 0.0)
 	{
@@ -80,7 +68,7 @@ int		core(t_win *win)
 		win->env->newi = mlx_new_image(win->mlx, WIDTH, HEIGHT);
 		direction_win(win);
 		position_win(win);
-		display(win);
+		display(win, 0, WIDTH);
 		move = 1;
 	}
 	mlx_put_image_to_window(win->mlx, win->win, win->sky->newi, 0, 0);

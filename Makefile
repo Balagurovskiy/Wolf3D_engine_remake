@@ -10,6 +10,7 @@ FILES =	main \
 		raycaster/position \
 		utils/xy \
 		utils/window \
+		utils/threads \
 		utils/image
 		
 HDRS = includes/wolf.h

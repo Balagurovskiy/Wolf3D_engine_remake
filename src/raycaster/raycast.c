@@ -71,13 +71,13 @@ static void		ray_find_wall(t_ray *ray, t_map *map)
 			ray->wall = 1;
 		}
 		map_type = map_get_type(map, ray->pos.x, ray->pos.y);
-		if (map_type != '0')
+		if (map_type != '0' && map_type != 'x')
 			hit = 1;
 	}
 
 }
 
-static void		ray_size(t_win *win,t_ray *ray)
+static void		ray_wall_size(t_win *win,t_ray *ray)
 {
 	double dist;
 
@@ -94,20 +94,6 @@ static void		ray_size(t_win *win,t_ray *ray)
 	ray->l_end = ray->l_h / 2 + HEIGHT / 2;
 	if (ray->l_end >= HEIGHT)
 		ray->l_end = HEIGHT - 1;
-
-	static int entry = 0;
-		if (entry == 11)
-	{
-		printf("pos dx:%f dy:%f x:%d y:%d\n", win->ray->pos.dx,win->ray->pos.dy,win->ray->pos.x,win->ray->pos.y);
-		printf("dir dx:%f dy%f\n", win->ray->dir.dx, win->ray->dir.dy);
-		printf("delta dx:%f dy%f\n", win->ray->delta.dx, win->ray->delta.dy);
-		printf("step dx:%d dy%d\n", win->ray->step.x,win->ray->step.y);
-		printf("dist dx:%f dy%f\n", win->ray->dist.dx,win->ray->dist.dy);
-		printf("start end dx:%d dy:%d rh:%d\n", win->ray->l_start,win->ray->l_end,win->ray->l_h);
-	}
-	entry++;
-	if (entry == 1000)
-		entry = 0;
 }
 
 void			raycast(t_win *win, int x)
@@ -115,5 +101,5 @@ void			raycast(t_win *win, int x)
 		ray_init(win, x);
 		ray_euclidean_distance(win->ray);
 		ray_find_wall(win->ray, win->map);
-		ray_size(win,win->ray);
+		ray_wall_size(win,win->ray);
 }
