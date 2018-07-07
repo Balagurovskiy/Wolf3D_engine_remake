@@ -45,8 +45,8 @@ void	position_win(t_win *win)
 	if (win->keys == 1.1 || win->keys == -1.1 )
 	{
 		dir_temp = win->dir;
-		win->dir = dir_rotate(win->dir, (-(win->keys) * 16.0));
-		if (pos_is_it_floor(win->pos, win->dir, win->map, win->keys))
+		win->dir = dir_rotate(win->dir, (-(win->keys) * 14.5));
+		if (pos_is_it_floor(win->pos, win->dir, win->map, 1.0))
 			win->pos = pos_move(win->pos, win->dir, 1.0);
 		win->dir = dir_temp;
 	}

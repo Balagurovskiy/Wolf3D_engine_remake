@@ -14,15 +14,20 @@
 
 int		key_hit(int key, t_win *win)
 {
-	//printf("%d\n",key);
+	// printf("%d\n",key);
 	if (key == W)
 		win->keys = 1.0;
-	if (key == S)
+	else if (key == S)
 		win->keys = -1.0;
-	if (key == A)
+	else if (key == A)
 		win->keys = -1.1;
-	if (key == D)
+	else if (key == D)
 		win->keys = 1.1;
+	else if (key == ESC)
+	{
+		window_destroy(win);
+		exit(1);
+	}
 	return 1;
 }
 
@@ -36,29 +41,33 @@ int			mouse_hook(int x, int y, t_win *win)
 {
 	(void)y;	
 	if ((WIDTH / 2 - x) > WIDTH / 4)
-		win->mouse = 0.2;
+		win->mouse = MOUSE_SPEED;
 	else if ((WIDTH / 2 - x) < - WIDTH / 4)
-		win->mouse = -0.2;
+		win->mouse = -MOUSE_SPEED;
 	else
 		win->mouse = 0;
 	return 1;
 }
 
 //////////////////CHECK BORDER ON 0 IF(TRUE) REPLACE ON 1 OR WALL WITH INVIS
+
 //////////////////THREADS  
 ///						1 thread - normal; >1 - destroy
-//////////////////IF PRESSED TWO BUTTS kyes WILL BE 0 AFTER RLEASE ONLY ONE OF THEM
+
+//////////////////IF PRESSED TWO BUTTS kyes WILL BE 0 AFTER RLEASE ONLY ONE OF THEM -- MLX SHIT CONTAINS ONLY L_A_S_T PRESSED BUTT
+
+//////////////////SETEP MOVE NOT REACT ON VECTOR WHEN HIT THE WALL - STEP IN FREE SIDE DOEST WORK
 int		core(t_win *win)
 {
 	static int move = 1;
 	if (move)
 	{
-		//display(win, 0, WIDTH);
+		display(win, 0, WIDTH);
 
 		// display(win, 0, WIDTH_1_4);
 		// display(win, WIDTH_1_4 * 2, WIDTH_1_4 * 3);
 
-		thread_make(win);
+		//thread_make(win);
 		
 		move = 0;
 	}

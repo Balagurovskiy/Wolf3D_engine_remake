@@ -147,7 +147,9 @@ void	thread_make(t_win *win);
 # define S 1
 # define A 0
 # define D 2
+# define ESC 53
 
 # define MOVE_SPEED 0.1
+# define MOUSE_SPEED 0.5
 
 #endif
