@@ -67,6 +67,7 @@ typedef	struct		s_ray
 	t_img			*env;
 	t_img			*txt;
 	t_img			*txt_floor;
+	t_xy			floor;
 
 	double			camera;
 	int				wall;
@@ -138,6 +139,8 @@ void		window_exception(t_win *win, char *msg);
 t_img		*image_new(void *mlx, int w, int h, char *img_file);
 void		image_destroy(void *mlx, t_img *img);
 			/* raycaster/display */
+int			out_of_range(int thr_id, t_xy xy);
+int			get_thr_x(int thr_id, int x);
 void		display(t_win *win, int thread_id, int x0, int xn);
 			/* raycaster/raycast */
 void		raycast(t_win *win, int thread_id, int x);
@@ -160,9 +163,15 @@ void		threads_free_image(t_win *win);
 t_img		**txt_init(void *mlx);
 void		txt_free(void *mlx, t_img **txts);
 			/*texture/color*/
-t_color		color_get_pixel(char *addr, int idx);
-void		color_shift_y(t_color *color);
-void		color_set_pixel(char *addr, int idx, t_color color);
+t_color		txt_color_get_addr(char *addr, int idx);
+void		txt_color_shift_y(t_color *color);
+void		txt_color_set_pixel(char *addr, int idx, t_color color);
+			/*texture/txt_ray*/
+void		txt_wallx(t_ray *ray, double dist);
+void		txt_floor_direction(t_ray *ray);
+			/*texture/txt_draw*/
+void		txt_draw_wall(t_ray *ray, int thr_id, t_xy xy);
+void		txt_draw_floor(t_ray *ray, int thr_id, t_xy xy);
 
 # define COLOR_SKY 0xA9EAFF
 # define COLOR_FLOOR 0x3A9D23
@@ -176,10 +185,12 @@ void		color_set_pixel(char *addr, int idx, t_color color);
 # define HEIGHT 720
 # define THREADS 4
 # define TXTS 5
+# define TXT_H 200
+# define TXT_W 200
 
 # define I (int)
 
-# define SKY_T "textures/sky.xpm"
+# define SKY_T "textures/star_sky.xpm"
 
 # define W 13
 # define S 1

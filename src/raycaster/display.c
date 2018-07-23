@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-static int		out_of_range(int thr_id, t_xy xy)
+int		out_of_range(int thr_id, t_xy xy)
 {
 	int max_w;
 	int min_w;
@@ -24,7 +24,7 @@ static int		out_of_range(int thr_id, t_xy xy)
 			|| xy.x >=  max_w || xy.x < min_w);
 }
 
-static int		get_thr_x(int thr_id, int x)
+int		get_thr_x(int thr_id, int x)
 {
 	return (x - I(WIDTH_1_4 * (thr_id)));
 }
@@ -36,30 +36,6 @@ static void		draw_pixel(t_ray *ray,  int thr_id, t_xy xy, int color)
 	*(int *)(ray->env->addr + (xy.y * ray->env->sizel) +
 			(get_thr_x(thr_id, xy.x) * (ray->env->bpp / 8))) = color;
 }
-
-
-static void		draw_texture(t_ray *ray, int thr_id, t_xy xy, char *type)
-{
-	int				d;
-	t_color			color;
-	int 			txt_addr_idx;
-	int 			env_addr_idx;
-
- 	if (out_of_range(thr_id, xy))
-		return ;
-	d = xy.y * 256 - HEIGHT * 128 + ray->l_h * 128;
-	ray->t_y = ((d * 64 / ray->l_h) / 256);
-	txt_addr_idx = I(4 * (64 * ray->t_y + ray->t_x));
-	if (!ft_strcmp(type, "wall"))
-		color = color_get_pixel(ray->txt->addr, txt_addr_idx);
-	if (!ft_strcmp(type, "floor"))
-		color = color_get_pixel(ray->txt_floor->addr, txt_addr_idx);
-	if (ray->wall == 1)
-		color_shift_y(&color);
-	env_addr_idx = I(4 * (WIDTH_1_4 * xy.y + get_thr_x(thr_id, xy.x)));
-	color_set_pixel(ray->env->addr, env_addr_idx, color);
-}
-
 
 
 static void		draw(t_ray *ray, int thr_id, int x)
@@ -77,13 +53,14 @@ static void		draw(t_ray *ray, int thr_id, int x)
 	while (xy.y >= ray->l_start && xy.y <= ray->l_end)
 	{
 		//draw_pixel(ray, thr_id, xy, ray->env->color);
-		draw_texture(ray, thr_id, xy, "wall");
+		txt_draw_wall(ray, thr_id, xy);
 		xy.y++;
 	}
+	txt_floor_direction(ray);
 	while (xy.y < HEIGHT)
 	{
 		//draw_pixel(ray, thr_id, xy, COLOR_FLOOR);
-		draw_texture(ray, thr_id, xy, "floor");
+		txt_draw_floor(ray, thr_id, xy);
 
 		xy.y++;
 	}

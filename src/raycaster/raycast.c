@@ -90,18 +90,7 @@ static void		ray_wall_size(t_ray *ray)
 	ray->l_end = ray->l_h / 2 + HEIGHT / 2;
 	if (ray->l_end >= HEIGHT)
 		ray->l_end = HEIGHT - 1;
-	//-------------------------------------
-	if (ray->wall == 0)
-		ray->wallx = ray->pos.dy + dist * ray->dir.dy;
-	else
-		ray->wallx = ray->pos.dx + dist * ray->dir.dx;
-	ray->wallx -= floor((ray->wallx));
-
-	ray->t_x = I(ray->wallx * (float)64);
-	if (ray->wall == 0 && ray->dir.dx > 0)
-		ray->t_x = 64 - ray->t_x - 1;
-	if (ray->wall == 1 && ray->dir.dy < 0)
-		ray->t_x = 64 - ray->t_x - 1;
+	txt_wallx(ray, dist);
 }
 
 void			raycast(t_win *win, int thread_id, int x)

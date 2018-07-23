@@ -9,7 +9,9 @@ FILES =	main \
 		raycaster/direction \
 		raycaster/position \
 		texture/txt_init \
-		texture/color \
+		texture/txt_color \
+		texture/txt_ray \
+		texture/txt_draw \
 		utils/xy \
 		utils/window \
 		utils/threads \

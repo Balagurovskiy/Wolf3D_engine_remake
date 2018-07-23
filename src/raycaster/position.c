@@ -39,14 +39,13 @@ static double		get_key(t_win *win)
 {
 	if (win->movement.forward)
 		return (win->movement.forward);
-	else if (win->movement.backward)
+	if (win->movement.backward)
 		return (win->movement.backward);
-	else if (win->movement.step_left)
+	if (win->movement.step_left)
 		return (win->movement.step_left);
-	else if (win->movement.step_right)
+	if (win->movement.step_right)
 		return (win->movement.step_right);
-	else
-		return (0.0);
+	return (0.0);
 }
 
 void				position_win(t_win *win)

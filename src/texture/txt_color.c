@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   txt_init.c                                         :+:      :+:    :+:   */
+/*   txt_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obalagur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,34 +12,27 @@
 
 #include "wolf.h"
 
-t_img		**txt_init(void *mlx)
+t_color		txt_color_get_addr(char *addr, int idx)
 {
-	t_img		**txt;
+	t_color color;
 
-	txt = (t_img **)malloc(sizeof(t_img *) * TXTS);
-	if (!txt)
-		return (NULL);
-	txt[0] = image_new(mlx, WIDTH_1_4, HEIGHT, "textures/1j.xpm");
-	txt[1] = image_new(mlx, WIDTH_1_4, HEIGHT, "textures/12j.xpm");
-	txt[2] = image_new(mlx, WIDTH_1_4, HEIGHT, "textures/13j.xpm");
-	txt[3] = image_new(mlx, WIDTH_1_4, HEIGHT, "textures/14j.xpm");
-	txt[4] = image_new(mlx, WIDTH_1_4, HEIGHT, "textures/0j.xpm");
-	return (txt);
+	color.r = addr[idx];
+	color.g = addr[idx + 1];
+	color.b = addr[idx + 2];
+
+	return (color);
 }
 
-void		txt_free(void *mlx, t_img **txts)
+void		txt_color_shift_y(t_color *color)
 {
-	int i;
+	color->r = (color->r >> 1) & 8355711;
+	color->g = (color->g >> 1) & 8355711;
+	color->b = (color->b >> 1) & 8355711;
+}
 
-	i = 0;
-	if (txts != NULL)
-	{
-		while (i < TXTS)
-		{
-			if (txts[i] != NULL)
-				image_destroy(mlx, txts[i]);
-			i++;
-		}
-		ft_memdel((void **)&(txts));
-	}
+void		txt_color_set_pixel(char *addr, int idx, t_color color)
+{
+	addr[idx] = color.r;
+	addr[idx + 1] = color.g;
+	addr[idx + 2] = color.b;
 }
