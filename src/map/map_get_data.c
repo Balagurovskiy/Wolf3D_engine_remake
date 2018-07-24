@@ -64,6 +64,5 @@ t_map			*map_create(char *filename)
 		map_exception(map, "invalid file name");
 	map = (t_map *)for_each_gnl(filename, (void *)&map_get_data);
 	map_catch_exception(map);
-
 	return (map);
 }

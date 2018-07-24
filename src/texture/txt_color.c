@@ -19,7 +19,6 @@ t_color		txt_color_get_addr(char *addr, int idx)
 	color.r = addr[idx];
 	color.g = addr[idx + 1];
 	color.b = addr[idx + 2];
-
 	return (color);
 }
 

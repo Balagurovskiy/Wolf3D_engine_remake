@@ -4,6 +4,7 @@ FILES =	main \
 		map/map_utils \
 		map/map_get_data \
 		map/map_validation \
+		map/map_border \
 		raycaster/display \
 		raycaster/raycast \
 		raycaster/direction \

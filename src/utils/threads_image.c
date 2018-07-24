@@ -24,7 +24,6 @@ void	threads_set_image(t_win *win)
 		win->ray[i]->txt = NULL;
 		i++;
 	}
-
 }
 
 void	threads_put_image(t_win *win)

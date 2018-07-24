@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 # include "libft.h"
 
-# define BUFF_SIZE 1
+# define BUFF_SIZE 100
 # define HAS_N (after_n = ft_strchr(*line, '\n')) != NULL
 
 int		get_next_line(const int fd, char **line);

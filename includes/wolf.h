@@ -114,6 +114,10 @@ typedef struct		s_win
 	t_movement		movement;
 
 }					t_win;
+			/* map/map_border */
+void		map_w_bordering(t_map	*m);
+void		map_h_bordering(t_map	*m);
+void		map_check_x(t_map	*m);
 			/* map/map_utils */
 t_map		*map_new_node(char *type, int x, int y);
 void		map_add_node(t_map **first_node, t_map *new_node);
@@ -171,7 +175,7 @@ void		txt_wallx(t_ray *ray, double dist);
 void		txt_floor_direction(t_ray *ray);
 			/*texture/txt_draw*/
 void		txt_draw_wall(t_ray *ray, int thr_id, t_xy xy);
-void		txt_draw_floor(t_ray *ray, int thr_id, t_xy xy);
+void		txt_draw_floor(t_ray *ray, int thr_id, t_xy xy, double dist);
 
 # define COLOR_SKY 0xA9EAFF
 # define COLOR_FLOOR 0x3A9D23
@@ -181,7 +185,7 @@ void		txt_draw_floor(t_ray *ray, int thr_id, t_xy xy);
 # define COLOR_WEST 0xEFD242
 
 # define WIDTH 1280
-# define WIDTH_1_4 (float)WIDTH * (1.0 / 4.0)
+# define WIDTH_1_4 (WIDTH * 0.25)
 # define HEIGHT 720
 # define THREADS 4
 # define TXTS 5

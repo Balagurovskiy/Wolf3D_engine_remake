@@ -41,7 +41,7 @@ t_xy			map_get_xy(t_map *map, char type)
 			m = m->next;
 		}
 	}
-	return (set_xy((double)1, (double)1));
+	return (set_xy(-1.0, -1.0));
 }
 
 char			map_get_type(t_map *map, int x, int y)
@@ -98,4 +98,3 @@ void			map_del_all(t_map **node)
 		}
 	}
 }
-

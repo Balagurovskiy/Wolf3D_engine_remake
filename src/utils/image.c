@@ -26,8 +26,8 @@ t_img		*image_new(void *mlx, int w, int h, char *img_file)
 	if (img_file == NULL)
 		img->newi = mlx_new_image(mlx, w, h);
 	else
-		img->newi = mlx_xpm_file_to_image(mlx,  img_file, &w, &h);//"textures/sky.xpm"
-	img->addr = mlx_get_data_addr(img->newi, &img->bpp, 
+		img->newi = mlx_xpm_file_to_image(mlx, img_file, &w, &h);
+	img->addr = mlx_get_data_addr(img->newi, &img->bpp,
 						&img->sizel, &img->endi);
 	return (img);
 }

@@ -18,7 +18,7 @@ t_xy		set_xy(double x, double y)
 
 	xy.dx = x;
 	xy.dy = y;
-	xy.x = I(x);	
+	xy.x = I(x);
 	xy.y = I(y);
 	return (xy);
 }

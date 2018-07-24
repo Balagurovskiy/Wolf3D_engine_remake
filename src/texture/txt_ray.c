@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   txt_ray.c                                      :+:      :+:    :+:   */
+/*   txt_ray.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obalagur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -29,7 +29,7 @@ void	txt_floor_direction(t_ray *ray)
 {
 	if (ray->wall == 0 && ray->dir.dx > 0)
 	{
-		ray->floor.dx = (ray->pos.dx);
+		ray->floor.dx = ray->pos.dx;
 		ray->floor.dy = ray->pos.y + ray->wallx;
 	}
 	else if (ray->wall == 0 && ray->dir.dx < 0)

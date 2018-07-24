@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_validation.c                                   :+:      :+:    :+:   */
+/*   map_border.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obalagur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,20 +12,13 @@
 
 #include "wolf.h"
 
-int					map_valid_data(char *data)
+static	void	swap_0_to_1(char *type)
 {
-	int i;
-
-	i = 0;
-	if (data)
-		while (data[i])
-			i++;
-	if (i > 1)
-		return (0);
-	return ((data[0] >= '0' && data[0] <= '9') || data[0] == 'x');
+	if (type[0] != '1')
+		type[0] = '1';
 }
 
-static int			different_line_size(t_map *m, int size)
+void			map_w_bordering(t_map *m)
 {
 	t_map		*map;
 	int			count;
@@ -34,48 +27,45 @@ static int			different_line_size(t_map *m, int size)
 	count = 0;
 	while (map)
 	{
-		if (((map->next && map->next->first_in_row)
-			|| map->next == NULL))
-		{
-			if (map->x != size)
-				return (1);
-		}
+		if ((map->next && map->next->first_in_row)
+			|| map->first_in_row)
+			swap_0_to_1(map->type);
 		count = map->x;
 		map = map->next;
 	}
-	return (0);
 }
 
-int					map_catch_exception(t_map *m)
+void			map_h_bordering(t_map *m)
 {
 	t_map		*map;
-	int			count;
+	t_map		*f_in_row;
 
-	if (!m)
-		map_exception(m, "NULL value");
 	map = m;
-	count = 0;
 	while (map)
 	{
-		if (map->first_in_row && count > 0)
-		{
-			if (different_line_size(m, count))
-				map_exception(m, "invalid size");
-		}
-		count = map->x;
+		if (map->first_in_row == 1)
+			f_in_row = map;
+		if (map->x == 0 && map->y == 0)
+			while (!map->next->first_in_row)
+			{
+				swap_0_to_1(map->type);
+				map = map->next;
+			}
+		if (map->next == NULL)
+			while (f_in_row)
+			{
+				swap_0_to_1(f_in_row->type);
+				f_in_row = f_in_row->next;
+			}
 		map = map->next;
 	}
-	map_w_bordering(m);
-	map_h_bordering(m);
-	map_check_x(m);
-	return (0);
 }
 
-void				map_exception(t_map *m, char *msg)
+void			map_check_x(t_map *m)
 {
-	ft_putstr("\tmap exception : ");
-	ft_putstr(msg);
-	write(1, "\n", 1);
-	map_del_all(&m);
-	exit(1);
+	t_xy check_pos;
+
+	check_pos = map_get_xy(m, 'x');
+	if (check_pos.dx < 0.0 || check_pos.dx < 0.0)
+		map_exception(m, "invalid map content - insert <x>");
 }

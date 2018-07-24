@@ -16,10 +16,11 @@ static void		ray_init(t_win *win, int id, int x)
 {
 	win->ray[id]->pos = set_xy(win->pos.dx, win->pos.dy);
 	win->ray[id]->camera = 2 * x / (double)(WIDTH) - 1;
-	win->ray[id]->dir = set_xy(win->dir.dx + win->ray[id]->plane.dx * win->ray[id]->camera, 
-						win->dir.dy + win->ray[id]->plane.dy * win->ray[id]->camera);
-	win->ray[id]->delta = set_xy(fabs(1 / win->ray[id]->dir.dx ),
-						fabs(1 / win->ray[id]->dir.dy ));
+	win->ray[id]->dir = set_xy(win->dir.dx
+		+ win->ray[id]->plane.dx * win->ray[id]->camera,
+		win->dir.dy + win->ray[id]->plane.dy * win->ray[id]->camera);
+	win->ray[id]->delta = set_xy(fabs(1 / win->ray[id]->dir.dx),
+						fabs(1 / win->ray[id]->dir.dy));
 }
 
 static void		ray_euclidean_distance(t_ray *ray)
@@ -27,23 +28,23 @@ static void		ray_euclidean_distance(t_ray *ray)
 	if (ray->dir.dx < 0)
 	{
 		ray->step.x = -1;
-		ray->dist.dx = (ray->pos.dx - ray->pos.x) * ray->delta .dx;
+		ray->dist.dx = (ray->pos.dx - ray->pos.x) * ray->delta.dx;
 	}
 	else
 	{
 		ray->step.x = 1;
-		ray->dist.dx = (ray->pos.x + 1.0 - ray->pos.dx) * ray->delta .dx;
+		ray->dist.dx = (ray->pos.x + 1.0 - ray->pos.dx) * ray->delta.dx;
 	}
 	if (ray->dir.dy < 0)
 	{
 		ray->step.y = -1;
-		ray->dist.dy = (ray->pos.dy - ray->pos.y) * ray->delta .dy;
+		ray->dist.dy = (ray->pos.dy - ray->pos.y) * ray->delta.dy;
 	}
 	else
 	{
 		ray->step.y = 1;
-		ray->dist.dy = (ray->pos.y + 1.0 - ray->pos.dy) * ray->delta .dy;
-	}	
+		ray->dist.dy = (ray->pos.y + 1.0 - ray->pos.dy) * ray->delta.dy;
+	}
 }
 
 static void		ray_find_wall(t_ray *ray, t_map *map)
@@ -70,7 +71,6 @@ static void		ray_find_wall(t_ray *ray, t_map *map)
 		if (map_type != '0' && map_type != 'x')
 			hit = 1;
 	}
-
 }
 
 static void		ray_wall_size(t_ray *ray)
@@ -94,9 +94,9 @@ static void		ray_wall_size(t_ray *ray)
 }
 
 void			raycast(t_win *win, int thread_id, int x)
-{	
-		ray_init(win, thread_id, x);
-		ray_euclidean_distance(win->ray[thread_id]);
-		ray_find_wall(win->ray[thread_id], win->map);
-		ray_wall_size(win->ray[thread_id]);
+{
+	ray_init(win, thread_id, x);
+	ray_euclidean_distance(win->ray[thread_id]);
+	ray_find_wall(win->ray[thread_id], win->map);
+	ray_wall_size(win->ray[thread_id]);
 }

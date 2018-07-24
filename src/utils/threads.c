@@ -32,19 +32,19 @@ static void	display_3_4(t_win *win)
 	display(win, 3, WIDTH_1_4 * 3, WIDTH_1_4 * 4);
 }
 
-void	thread_make(t_win *win)
+void		thread_make(t_win *win)
 {
 	pthread_t		threads[THREADS];
 	int				idx;
 
 	pthread_create(&threads[0], NULL,
-			(void *(*)(void *))display_0_1,	(void *)win);
+			(void *(*)(void *))display_0_1, (void *)win);
 	pthread_create(&threads[1], NULL,
-			(void *(*)(void *))display_1_2,	(void *)win);
+			(void *(*)(void *))display_1_2, (void *)win);
 	pthread_create(&threads[2], NULL,
-			(void *(*)(void *))display_2_3,	(void *)win);
+			(void *(*)(void *))display_2_3, (void *)win);
 	pthread_create(&threads[3], NULL,
-			(void *(*)(void *))display_3_4,	(void *)win);
+			(void *(*)(void *))display_3_4, (void *)win);
 	idx = 0;
 	while (idx < THREADS)
 		pthread_join(threads[idx++], NULL);

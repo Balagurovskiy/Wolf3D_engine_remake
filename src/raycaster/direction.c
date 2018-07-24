@@ -46,19 +46,3 @@ void	direction_win(t_win *win)
 		i++;
 	}
 }
-// void	dir_rotate(t_win *win)
-// {
-// 	double	dirx;
-// 	double	planex;
-
-// 	dirx = win->dir.dx;
-// 	planex = win->ray->plane.dx;
-// 	win->dir.dx = win->dir.dx * cos(win->mouse * 0.1)
-// 		- win->dir.dy * sin(win->mouse * 0.1);
-// 	win->dir.dy = dirx * sin(win->mouse * 0.1)
-// 		+ win->dir.dy * cos(win->mouse * 0.1);
-// 	win->ray->plane.dx = win->ray->plane.dx * cos(win->mouse * 0.1)
-// 		- win->ray->plane.dy * sin(win->mouse * 0.1);
-// 	win->ray->plane.dy = planex * sin(win->mouse * 0.1)
-// 		+ win->ray->plane.dy * cos(win->mouse * 0.1);
-// }
