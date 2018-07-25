@@ -14,34 +14,48 @@
 
 int		key_hit(int key, t_win *win)
 {
-	// printf("%d\n",key);	
-	if (key == W)
+	if (key == W || key == UP)
 		win->movement.forward = 1.0;
-	if (key == S)
+	if (key == S || key == DOWN)
 		win->movement.backward = -1.0;
 	if (key == A)
 		win->movement.step_left = -1.1;
 	if (key == D)
 		win->movement.step_right = 1.1;
-	if (key == ESC)
+	if ((win->sound_loop == 0 || win->sound_loop > 35) &&
+		(key == D || key == A || key == S || key == W ||
+			key == DOWN || key == UP))	
 	{
-		window_destroy(win);
-		exit(1);
+		system("afplay ./music/Footsteps.mp3&");
+		win->sound_loop = 0;
 	}
-	return 1;
+	if (key == LEFT || key == RIGHT)
+		win->mouse = (key == RIGHT) ? -MOUSE_SPEED : MOUSE_SPEED;
+	if (key == ESC)
+		window_destroy(win);	
+	win->sound_loop++;
+	return (1);
 }
 
 int		key_release(int key, t_win *win)
 {
-	if (key == W)
+	if (key == W || key == UP)
 		win->movement.forward = 0.0;
-	if (key == S)
+	if (key == S || key == DOWN)
 		win->movement.backward = 0.0;
 	if (key == A)
 		win->movement.step_left = 0.0;
 	if (key == D)
 		win->movement.step_right = 0.0;
-	return 1;
+	if (key == D || key == A || key == S || key == W ||
+		key == DOWN || key == UP)
+		{	
+			system("pkill afplay");
+			win->sound_loop = 0;
+		}
+	if (key == LEFT || key == RIGHT)
+		win->mouse = 0;
+	return (1);
 }
 
 int			mouse_hook(int x, int y, t_win *win)
@@ -53,10 +67,8 @@ int			mouse_hook(int x, int y, t_win *win)
 		win->mouse = -MOUSE_SPEED;
 	else
 		win->mouse = 0;
-	return 1;
+	return (1);
 }
-
-//////////////////CHECK BORDER ON 0 IF(TRUE) REPLACE ON 1 OR WALL WITH INVIS 
 
 int		core(t_win *win)
 {
@@ -93,6 +105,7 @@ int		main(int argc, char **argv)
 	win->sky = image_new(win->mlx, WIDTH, HEIGHT, SKY_T);
 	win->txts = txt_init(win->mlx);
 	threads_set_image(win);
+	mlx_hook(win->win, 17, 0, window_destroy, win);
 	mlx_hook(win->win, 6, 0, mouse_hook, win);
 	mlx_hook(win->win, 2, 0, key_hit, win);
 	mlx_hook(win->win, 3, 0, key_release, win);

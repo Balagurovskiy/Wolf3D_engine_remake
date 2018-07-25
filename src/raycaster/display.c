@@ -35,7 +35,7 @@ static void		draw(t_ray *ray, int thr_id, int x)
 	}
 	while (xy.y >= ray->l_start && xy.y <= ray->l_end)
 	{
-		//draw_pixel(ray, thr_id, xy, ray->env->color);
+		//draw_pixel(ray, thr_id, xy, COLOR_SOUTH);
 		txt_draw_wall(ray, thr_id, xy);
 		xy.y++;
 	}
@@ -43,8 +43,8 @@ static void		draw(t_ray *ray, int thr_id, int x)
 	dist = HEIGHT / ray->l_h;
 	while (xy.y < HEIGHT)
 	{
-		//draw_pixel(ray, thr_id, xy, COLOR_FLOOR);
-		txt_draw_floor(ray, thr_id, xy, dist);
+		draw_pixel(ray, thr_id, xy, COLOR_FLOOR);
+		//txt_draw_floor(ray, thr_id, xy, dist);
 		xy.y++;
 	}
 }
@@ -56,12 +56,13 @@ int		out_of_range(int thr_id, t_xy xy)
 
 	max_w = I((WIDTH * 0.25) * (thr_id + 1));
 	min_w = I((WIDTH * 0.25) * (thr_id));
-	return (1);
+	return (xy.y >= HEIGHT || xy.y < 0
+		|| xy.x >=  max_w || xy.x < min_w);
 }
 
 int		get_thr_x(int thr_id, int x)
 {
-	return (1);
+	return (x - I(WIDTH_1_4 * (thr_id)));
 }
 
 void			display(t_win *win, int thread_id, int x0, int xn)
