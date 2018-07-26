@@ -31,9 +31,10 @@ int		key_hit(int key, t_win *win)
 	}
 	if (key == LEFT || key == RIGHT)
 		win->mouse = (key == RIGHT) ? -MOUSE_SPEED : MOUSE_SPEED;
+	else
+		win->sound_loop++;
 	if (key == ESC)
-		window_destroy(win);	
-	win->sound_loop++;
+		window_destroy(win);
 	return (1);
 }
 
