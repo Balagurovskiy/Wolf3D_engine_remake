@@ -75,22 +75,20 @@ static void		ray_find_wall(t_ray *ray, t_map *map)
 
 static void		ray_wall_size(t_ray *ray)
 {
-	double dist;
-
 	if (ray->wall == 0)
-		dist = fabs((ray->pos.x - ray->pos.dx
+		ray->distance = fabs((ray->pos.x - ray->pos.dx
 					+ (1 - ray->step.x) / 2) / ray->dir.dx);
 	else
-		dist = fabs((ray->pos.y - ray->pos.dy
+		ray->distance = fabs((ray->pos.y - ray->pos.dy
 					+ (1 - ray->step.y) / 2) / ray->dir.dy);
-	ray->l_h = abs(I(HEIGHT / dist));
+	ray->l_h = abs(I(HEIGHT / ray->distance));
 	ray->l_start = (-1 * (ray->l_h)) / 2 + HEIGHT / 2;
 	if (ray->l_start < 0)
 		ray->l_start = 0;
 	ray->l_end = ray->l_h / 2 + HEIGHT / 2;
 	if (ray->l_end >= HEIGHT)
 		ray->l_end = HEIGHT - 1;
-	txt_wallx(ray, dist);
+	txt_wallx(ray);
 }
 
 void			raycast(t_win *win, int thread_id, int x)

@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-static void		draw_pixel(t_ray *ray,  int thr_id, t_xy xy, int color)
+static void		draw_pixel(t_ray *ray, int thr_id, t_xy xy, int color)
 {
 	if (out_of_range(thr_id, xy))
 		return ;
@@ -20,11 +20,9 @@ static void		draw_pixel(t_ray *ray,  int thr_id, t_xy xy, int color)
 			(get_thr_x(thr_id, xy.x) * (ray->env->bpp / 8))) = color;
 }
 
-
 static void		draw(t_ray *ray, int thr_id, int x)
 {
 	t_xy	xy;
-	double	dist;
 
 	xy.y = 0;
 	xy.x = x;
@@ -35,32 +33,29 @@ static void		draw(t_ray *ray, int thr_id, int x)
 	}
 	while (xy.y >= ray->l_start && xy.y <= ray->l_end)
 	{
-		//draw_pixel(ray, thr_id, xy, COLOR_SOUTH);
 		txt_draw_wall(ray, thr_id, xy);
 		xy.y++;
 	}
 	txt_floor_direction(ray);
-	dist = HEIGHT / ray->l_h;
 	while (xy.y < HEIGHT)
 	{
-		draw_pixel(ray, thr_id, xy, COLOR_FLOOR);
-		//txt_draw_floor(ray, thr_id, xy, dist);
+		txt_draw_floor(ray, thr_id, xy);
 		xy.y++;
 	}
 }
 
-int		out_of_range(int thr_id, t_xy xy)
+int				out_of_range(int thr_id, t_xy xy)
 {
 	int max_w;
 	int min_w;
 
-	max_w = I((WIDTH * 0.25) * (thr_id + 1));
-	min_w = I((WIDTH * 0.25) * (thr_id));
+	max_w = I((WIDTH_1_4) * (thr_id + 1));
+	min_w = I((WIDTH_1_4) * (thr_id));
 	return (xy.y >= HEIGHT || xy.y < 0
-		|| xy.x >=  max_w || xy.x < min_w);
+		|| xy.x >= max_w || xy.x < min_w);
 }
 
-int		get_thr_x(int thr_id, int x)
+int				get_thr_x(int thr_id, int x)
 {
 	return (x - I(WIDTH_1_4 * (thr_id)));
 }

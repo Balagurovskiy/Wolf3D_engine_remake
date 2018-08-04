@@ -22,49 +22,40 @@ int					map_valid_data(char *data)
 			i++;
 	if (i > 1)
 		return (0);
-	return ((data[0] >= '0' && data[0] <= '9') || data[0] == 'x');
+	return (data[0] == '0' || data[0] == '1'
+		|| data[0] == ' ' || data[0] == 'x');
 }
 
-static int			different_line_size(t_map *m, int size)
+static int			too_big(void)
 {
-	t_map		*map;
-	int			count;
+	static int limit = 0;
 
-	map = m;
-	count = 0;
-	while (map)
-	{
-		if (((map->next && map->next->first_in_row)
-			|| map->next == NULL))
-		{
-			if (map->x != size)
-				return (1);
-		}
-		count = map->x;
-		map = map->next;
-	}
+	limit++;
+	if (limit > 3000)
+		return (1);
 	return (0);
 }
 
 int					map_catch_exception(t_map *m)
 {
 	t_map		*map;
-	int			count;
+	int			count_all;
+	int			count_lines;
 
-	if (!m)
-		map_exception(m, "NULL value");
 	map = m;
-	count = 0;
+	count_all = 0;
+	count_lines = 0;
 	while (map)
 	{
-		if (map->first_in_row && count > 0)
-		{
-			if (different_line_size(m, count))
-				map_exception(m, "invalid size");
-		}
-		count = map->x;
+		if (map->first_in_row)
+			count_lines++;
+		count_all++;
 		map = map->next;
 	}
+	if (!count_lines)
+		map_exception(m, "file is empty");
+	if (count_all % count_lines != 0 || too_big())
+		map_exception(m, "invalid size");
 	map_w_bordering(m);
 	map_h_bordering(m);
 	map_check_x(m);

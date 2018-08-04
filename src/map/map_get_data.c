@@ -40,6 +40,22 @@ static t_map	*fill_map(char **line, int y)
 	return (map);
 }
 
+static int		map_valid(char *line)
+{
+	int i;
+
+	i = 0;
+	if (line)
+		while (line[i])
+		{
+			if ((line[0] != '0') && (line[0] != '1')
+				&& (line[0] != ' ') && (line[0] != 'x'))
+				return (0);
+			i++;
+		}
+	return (1);
+}
+
 static t_map	*map_get_data(char *line)
 {
 	static t_map	*map = NULL;
@@ -48,10 +64,13 @@ static t_map	*map_get_data(char *line)
 
 	if (line)
 	{
-		splited_line = ft_splinter(line, " ");
-		map_add_node(&map, fill_map(splited_line, entry));
-		entry++;
-		ft_memdel((void **)&splited_line);
+		if (ft_strlen(line) > 0 && map_valid(line))
+		{
+			splited_line = ft_splinter(line, " \t");
+			map_add_node(&map, fill_map(splited_line, entry));
+			entry++;
+			ft_memdel((void **)&splited_line);
+		}
 	}
 	return (map);
 }
@@ -63,6 +82,8 @@ t_map			*map_create(char *filename)
 	if (!filename)
 		map_exception(map, "invalid file name");
 	map = (t_map *)for_each_gnl(filename, (void *)&map_get_data);
+	if (!map)
+		map_exception(map, "NULL value");
 	map_catch_exception(map);
 	return (map);
 }

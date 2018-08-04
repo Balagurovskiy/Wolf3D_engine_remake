@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-int		key_hit(int key, t_win *win)
+int			key_hit(int key, t_win *win)
 {
 	if (key == W || key == UP)
 		win->movement.forward = 1.0;
@@ -22,9 +22,9 @@ int		key_hit(int key, t_win *win)
 		win->movement.step_left = -1.1;
 	if (key == D)
 		win->movement.step_right = 1.1;
-	if ((win->sound_loop == 0 || win->sound_loop > 35) &&
+	if ((win->sound_loop == 0 || win->sound_loop > 110) &&
 		(key == D || key == A || key == S || key == W ||
-			key == DOWN || key == UP))	
+			key == DOWN || key == UP))
 	{
 		system("afplay ./music/Footsteps.mp3&");
 		win->sound_loop = 0;
@@ -38,7 +38,7 @@ int		key_hit(int key, t_win *win)
 	return (1);
 }
 
-int		key_release(int key, t_win *win)
+int			key_release(int key, t_win *win)
 {
 	if (key == W || key == UP)
 		win->movement.forward = 0.0;
@@ -50,10 +50,10 @@ int		key_release(int key, t_win *win)
 		win->movement.step_right = 0.0;
 	if (key == D || key == A || key == S || key == W ||
 		key == DOWN || key == UP)
-		{	
-			system("pkill afplay");
-			win->sound_loop = 0;
-		}
+	{
+		system("pkill afplay");
+		win->sound_loop = 0;
+	}
 	if (key == LEFT || key == RIGHT)
 		win->mouse = 0;
 	return (1);
@@ -61,19 +61,20 @@ int		key_release(int key, t_win *win)
 
 int			mouse_hook(int x, int y, t_win *win)
 {
-	(void)y;	
+	(void)y;
 	if ((WIDTH / 2 - x) > WIDTH / 4)
 		win->mouse = MOUSE_SPEED;
-	else if ((WIDTH / 2 - x) < - WIDTH / 4)
+	else if ((WIDTH / 2 - x) < -WIDTH / 4)
 		win->mouse = -MOUSE_SPEED;
 	else
 		win->mouse = 0;
 	return (1);
 }
 
-int		core(t_win *win)
+int			core(t_win *win)
 {
 	static int move = 1;
+
 	if (move)
 	{
 		thread_make(win);
@@ -93,7 +94,7 @@ int		core(t_win *win)
 	return (1);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_map				*map;
 	t_win				*win;
@@ -102,7 +103,7 @@ int		main(int argc, char **argv)
 		ft_putstr("\twolf3d usage : <executable> <map>");
 	win = window_new(WIDTH, HEIGHT, "wolf3d");
 	window_map_init(win, argv[1]);
-	window_ray_init(win);	
+	window_ray_init(win);
 	win->sky = image_new(win->mlx, WIDTH, HEIGHT, SKY_T);
 	win->txts = txt_init(win->mlx);
 	threads_set_image(win);

@@ -26,6 +26,7 @@ t_win		*window_new(int w, int h, char *name)
 	win->sky = NULL;
 	win->map = NULL;
 	win->mouse = 0.0;
+	win->sound_loop = 0;
 	return (win);
 }
 
@@ -62,7 +63,7 @@ void		window_ray_init(t_win *win)
 	}
 }
 
-void		window_destroy(t_win *w)
+int			window_destroy(t_win *w)
 {
 	int i;
 
@@ -84,6 +85,9 @@ void		window_destroy(t_win *w)
 			mlx_destroy_window(w->mlx, w->win);
 		ft_memdel((void **)&w);
 	}
+	system("pkill afplay");
+	exit(1);
+	return (0);
 }
 
 void		window_exception(t_win *win, char *msg)

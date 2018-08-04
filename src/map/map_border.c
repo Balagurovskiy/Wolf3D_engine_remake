@@ -46,7 +46,7 @@ void			map_h_bordering(t_map *m)
 		if (map->first_in_row == 1)
 			f_in_row = map;
 		if (map->x == 0 && map->y == 0)
-			while (!map->next->first_in_row)
+			while (map->next && !map->next->first_in_row)
 			{
 				swap_0_to_1(map->type);
 				map = map->next;

@@ -12,12 +12,12 @@
 
 #include "wolf.h"
 
-void	txt_wallx(t_ray *ray, double dist)
+void	txt_wallx(t_ray *ray)
 {
 	if (ray->wall == 0)
-		ray->wallx = ray->pos.dy + dist * ray->dir.dy;
+		ray->wallx = ray->pos.dy + ray->distance * ray->dir.dy;
 	else
-		ray->wallx = ray->pos.dx + dist * ray->dir.dx;
+		ray->wallx = ray->pos.dx + ray->distance * ray->dir.dx;
 	ray->wallx -= floor((ray->wallx));
 	ray->t_x = I(ray->wallx * (float)TXT_W);
 	if ((ray->wall == 0 && ray->dir.dx > 0) ||
@@ -29,7 +29,7 @@ void	txt_floor_direction(t_ray *ray)
 {
 	if (ray->wall == 0 && ray->dir.dx > 0)
 	{
-		ray->floor.dx = ray->pos.dx;
+		ray->floor.dx = ray->pos.x;
 		ray->floor.dy = ray->pos.y + ray->wallx;
 	}
 	else if (ray->wall == 0 && ray->dir.dx < 0)
